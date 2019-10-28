@@ -1,10 +1,16 @@
 package com.conferencebooking.conferenceroombooking.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Data;
+
 import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.List;
 
+
+@Data
 @Entity
 @Table(name = "room")
 public class Room {
@@ -13,27 +19,33 @@ public class Room {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
-    @Size(max =50)
+    @Size(max = 50)
     @Column(unique = true)
-    @NotNull()
+    @NotNull
     private String name;
 
-    @Size(max =256)
+    @Size(max = 256)
     private String location;
 
-    @Max(value=100)
-    @NotNull()
-    private int numberOfSeats;
+    @Max(value = 100)
+    @NotNull
+    private Integer numberOfSeats;
 
-    @Column(columnDefinition = "boolean default false")
-    private boolean haveProjector;
-    @Size(max =100)
+    private Boolean haveProjector=false;
+
+    @Size(max = 100)
     private String phoneNumber;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "theRoom",cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
+    private List<Booking> bookings;
+
+
     public Room() {
+
     }
 
-    public Room( String name,  String location,  int numberOfSeats, boolean haveProjector,  String phoneNumber) {
+    public Room(String name, String location, Integer numberOfSeats, Boolean haveProjector, String phoneNumber) {
         this.name = name;
         this.location = location;
         this.numberOfSeats = numberOfSeats;
@@ -65,19 +77,19 @@ public class Room {
         this.location = location;
     }
 
-    public int getNumberOfSeats() {
+    public Integer getNumberOfSeats() {
         return numberOfSeats;
     }
 
-    public void setNumberOfSeats(int numberOfSeats) {
+    public void setNumberOfSeats(Integer numberOfSeats) {
         this.numberOfSeats = numberOfSeats;
     }
 
-    public boolean isHaveProjector() {
+    public Boolean isHaveProjector() {
         return haveProjector;
     }
 
-    public void setHaveProjector(boolean haveProjector) {
+    public void setHaveProjector(Boolean haveProjector) {
         this.haveProjector = haveProjector;
     }
 
@@ -89,15 +101,11 @@ public class Room {
         this.phoneNumber = phoneNumber;
     }
 
-    @Override
-    public String toString() {
-        return "Room{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", location='" + location + '\'' +
-                ", numberOfSeats=" + numberOfSeats +
-                ", haveProjector=" + haveProjector +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                '}';
+    public List<Booking> getBookings() {
+        return bookings;
+    }
+
+    public void setBookings(List<Booking> bookings) {
+        this.bookings = bookings;
     }
 }

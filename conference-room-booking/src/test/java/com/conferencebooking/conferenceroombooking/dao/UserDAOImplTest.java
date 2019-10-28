@@ -1,12 +1,10 @@
-package com.conferencebooking.conferenceroombooking.daointegrationtest;
+package com.conferencebooking.conferenceroombooking.dao;
 
-import com.conferencebooking.conferenceroombooking.dao.ApplicationDAO;
+import com.conferencebooking.conferenceroombooking.dao.user.UserDAO;
 import com.conferencebooking.conferenceroombooking.entity.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,11 +14,11 @@ import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 @RunWith(SpringRunner.class)
 @Transactional
 @SpringBootTest
-public class ApplicationDAOIntegrationTest {
+public class UserDAOImplTest {
 
 
     @Autowired
-    private ApplicationDAO applicationDAO;
+    private UserDAO userDAO;
 
 
     @Test
@@ -31,13 +29,13 @@ public class ApplicationDAOIntegrationTest {
         User user3=new User("Rolf","Anderson","rolf.ander","hgurjsq" );
 
 
-        applicationDAO.saveTheUser(user1);
-        applicationDAO.saveTheUser(user2);
-        applicationDAO.saveTheUser(user3);
+        userDAO.saveTheUser(user1);
+        userDAO.saveTheUser(user2);
+        userDAO.saveTheUser(user3);
 
-        User found1=applicationDAO.getUser(user1.getLogin());
-        User found2=applicationDAO.getUser(user2.getLogin());
-        User found3=applicationDAO.getUser(user3.getLogin());
+        User found1= userDAO.getUser(user1.getLogin());
+        User found2= userDAO.getUser(user2.getLogin());
+        User found3= userDAO.getUser(user3.getLogin());
 
         assertThat(found1.getName()).isEqualTo(user1.getName());
         assertThat(found2.getName()).isEqualTo(user2.getName());
@@ -52,19 +50,20 @@ public class ApplicationDAOIntegrationTest {
         User user2=new User("Anna","Jans","anjans","534212dfs" );
         User user3=new User("Rolf","Anderson","rolf.ander","hgurjsq" );
 
-        applicationDAO.saveTheUser(user1);
-        applicationDAO.saveTheUser(user2);
-        applicationDAO.saveTheUser(user3);
+        userDAO.saveTheUser(user1);
+        userDAO.saveTheUser(user2);
+        userDAO.saveTheUser(user3);
 
-        applicationDAO.deleteTheUser(user3.getLogin());
+        userDAO.deleteTheUser(user3.getLogin());
 
-        User found1=applicationDAO.getUser(user1.getLogin());
-        User found2=applicationDAO.getUser(user2.getLogin());
-        User found3=applicationDAO.getUser(user3.getLogin());
+        User found1= userDAO.getUser(user1.getLogin());
+        User found2= userDAO.getUser(user2.getLogin());
+        User found3= userDAO.getUser(user3.getLogin());
 
         assertThat(found1).isNotNull();
         assertThat(found2).isNotNull();
         assertThat(found3).isNull();
 
     }
+
 }

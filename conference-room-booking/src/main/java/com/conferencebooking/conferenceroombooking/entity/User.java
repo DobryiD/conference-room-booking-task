@@ -1,43 +1,53 @@
 package com.conferencebooking.conferenceroombooking.entity;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
+import lombok.Data;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
+import java.util.List;
+
+@Data
 @Entity
-@Table(name = "user")
+@Table(name = "system_user")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
-    @NotNull(message = "is required")
+    @NotEmpty(message = "is required")
     @Size(min = 1, max = 50)
     private String name;
 
-    @NotNull(message = "is required")
-    @Size(min = 1,max = 100)
+    @NotEmpty(message = "is required")
+    @Size(min = 1, max = 100)
     private String surname;
 
-    @NotNull(message = "is required")
-    @Size(min = 1,max = 100)
+    @NotEmpty(message = "is required")
+    @Size(min = 1, max = 100)
     @Column(unique = true)
     private String login;
 
-    @NotNull(message = "is required")
-    @Size(min = 6,max = 100)
+    @NotEmpty(message = "is required")
+    @Size(min = 6, max = 100)
     private String password;
+
+
+    @OneToMany(mappedBy = "theUser", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    private List<Booking> bookings;
 
     public User() {
     }
 
-    public User( String name,  String surname,  String login,  String password) {
+    public User(String name, String surname, String login, String password) {
         this.name = name;
         this.surname = surname;
         this.login = login;
         this.password = password;
     }
+
 
     public int getId() {
         return id;
@@ -71,7 +81,6 @@ public class User {
         this.login = login;
     }
 
-
     public String getPassword() {
         return password;
     }
@@ -80,13 +89,11 @@ public class User {
         this.password = password;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", surname='" + surname + '\'' +
-                ", login='" + login + '\'' +
-                '}';
+    public List<Booking> getBookings() {
+        return bookings;
+    }
+
+    public void setBookings(List<Booking> bookings) {
+        this.bookings = bookings;
     }
 }
