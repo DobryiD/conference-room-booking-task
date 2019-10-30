@@ -1,19 +1,12 @@
-package com.conferencebooking.conferenceroombooking.entity;
+package com.conferencebooking.conferenceroombooking.model;
 
 
-import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
-import java.util.List;
 
+public class RequestUser {
 
-@Entity
-@Table(name = "system_user")
-public class User {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private String adminKey;
 
     @NotEmpty(message = "is required")
     @Size(min = 1, max = 50)
@@ -25,7 +18,6 @@ public class User {
 
     @NotEmpty(message = "is required")
     @Size(min = 1, max = 100)
-    @Column(unique = true)
     private String login;
 
     @NotEmpty(message = "is required")
@@ -33,26 +25,33 @@ public class User {
     private String password;
 
 
-    @OneToMany(mappedBy = "theUser", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-    private List<Booking> bookings;
 
-    public User() {
+
+    public RequestUser() {
     }
 
-    public User(String name, String surname, String login, String password) {
+    public RequestUser(String adminKey, String name, String surname, String login, String password) {
+        this.adminKey = adminKey;
         this.name = name;
         this.surname = surname;
         this.login = login;
         this.password = password;
     }
 
-
-    public int getId() {
-        return id;
+    public String getAdminKey() {
+        return adminKey;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setAdminKey(String adminKey) {
+        this.adminKey = adminKey;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
     }
 
     public String getName() {
@@ -71,27 +70,11 @@ public class User {
         this.surname = surname;
     }
 
-    public String getLogin() {
-        return login;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
-    }
-
     public String getPassword() {
         return password;
     }
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public List<Booking> getBookings() {
-        return bookings;
-    }
-
-    public void setBookings(List<Booking> bookings) {
-        this.bookings = bookings;
     }
 }

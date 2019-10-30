@@ -1,27 +1,14 @@
-package com.conferencebooking.conferenceroombooking.entity;
+package com.conferencebooking.conferenceroombooking.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
-import org.springframework.beans.factory.annotation.Value;
-
-import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.List;
 
+public class RequestRoom {
 
-
-@Entity
-@Table(name = "room")
-public class Room {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private String adminKey;
 
     @Size(max = 50)
-    @Column(unique = true)
     @NotNull
     private String name;
 
@@ -38,16 +25,11 @@ public class Room {
     @Size(max = 100)
     private String phoneNumber;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "theRoom",cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
-    private List<Booking> bookings;
-
-
-    public Room() {
-
+    public RequestRoom() {
     }
 
-    public Room(String name, String location, Integer numberOfSeats, Boolean haveProjector, String phoneNumber) {
+    public RequestRoom(String adminKey, String name, String location, Integer numberOfSeats, Boolean haveProjector, String phoneNumber) {
+        this.adminKey=adminKey;
         this.name = name;
         this.location = location;
         this.numberOfSeats = numberOfSeats;
@@ -55,12 +37,12 @@ public class Room {
         this.phoneNumber = phoneNumber;
     }
 
-    public int getId() {
-        return id;
+    public String getAdminKey() {
+        return adminKey;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setAdminKey(String adminKey) {
+        this.adminKey = adminKey;
     }
 
     public String getName() {
@@ -101,13 +83,5 @@ public class Room {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
-    }
-
-    public List<Booking> getBookings() {
-        return bookings;
-    }
-
-    public void setBookings(List<Booking> bookings) {
-        this.bookings = bookings;
     }
 }

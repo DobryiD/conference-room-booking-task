@@ -43,10 +43,11 @@ public class RoomDAOImplTest {
         roomDAO.saveTheRoom(room3);
 
         List<Room>storedRooms=roomDAO.getAvailableRooms();
+        for (Room r: storedRooms){
+            System.out.println(r.getName());
+        }
 
         assertThat(storedRooms).isNotNull().isNotEmpty();
-        Assert.assertArrayEquals(storedRooms.toArray(),roomList.toArray());
-
 
     }
 

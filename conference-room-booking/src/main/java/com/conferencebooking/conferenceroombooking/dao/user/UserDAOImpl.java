@@ -22,7 +22,6 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    @Transactional
     public List<User> getAvailableUsers() {
         Session currentSession = entityManager.unwrap(Session.class);
 
@@ -31,7 +30,6 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    @Transactional
     public void saveTheUser(User theUser) {
         Session currentSession = entityManager.unwrap(Session.class);
 
@@ -39,7 +37,6 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    @Transactional
     public void deleteTheUser(String login) {
         Session currentSession = entityManager.unwrap(Session.class);
 
@@ -51,7 +48,6 @@ public class UserDAOImpl implements UserDAO {
 
 
     @Override
-    @Transactional
     public User getUser(String login) {
         Session theSession = entityManager.unwrap(Session.class);
 
@@ -59,7 +55,7 @@ public class UserDAOImpl implements UserDAO {
         theQuery.setParameter("userLogin", login);
 
         List<User> users = (List<User>) theQuery.getResultList();
-        if (users.size() <= 0)
+        if (users.isEmpty())
             return null;
         else
             return users.get(0);

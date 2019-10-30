@@ -4,7 +4,6 @@ import com.conferencebooking.conferenceroombooking.entity.Room;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -20,8 +19,8 @@ public class RoomDAOImpl implements RoomDAO {
         this.entityManager = entityManager;
     }
 
+
     @Override
-    @Transactional
     public List<Room> getAvailableRooms() {
         Session currentSession = entityManager.unwrap(Session.class);
 
@@ -30,7 +29,6 @@ public class RoomDAOImpl implements RoomDAO {
     }
 
     @Override
-    @Transactional
     public void saveTheRoom(Room room) {
         Session currentSession = entityManager.unwrap(Session.class);
 
@@ -38,7 +36,6 @@ public class RoomDAOImpl implements RoomDAO {
     }
 
     @Override
-    @Transactional
     public void deleteTheRoom(String name) {
 
         Session currentSession = entityManager.unwrap(Session.class);
@@ -51,7 +48,6 @@ public class RoomDAOImpl implements RoomDAO {
     }
 
     @Override
-    @Transactional
     public Room getRoom(String name) {
 
         Session theSession = entityManager.unwrap(Session.class);
@@ -60,7 +56,7 @@ public class RoomDAOImpl implements RoomDAO {
         theQuery.setParameter("roomName", name);
 
         List<Room> rooms = (List<Room>) theQuery.getResultList();
-        if (rooms.size() <= 0)
+        if (rooms.isEmpty())
             return null;
         else
             return rooms.get(0);

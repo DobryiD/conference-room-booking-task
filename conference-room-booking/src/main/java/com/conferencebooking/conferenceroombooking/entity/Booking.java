@@ -1,17 +1,19 @@
 package com.conferencebooking.conferenceroombooking.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
-@Data
+
 @Entity
 @Table(name = "booking")
 public class Booking {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @ManyToOne
@@ -22,14 +24,16 @@ public class Booking {
     @JoinColumn(name = "room_id")
     private Room theRoom;
 
-    private LocalDate startDate;
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime startDate;
 
-    private LocalDate endDate;
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime endDate;
 
     public Booking() {
     }
 
-    public Booking(User theUser, Room theRoom, LocalDate startDate, LocalDate endDate) {
+    public Booking(User theUser, Room theRoom, LocalDateTime startDate, LocalDateTime endDate) {
         this.theUser = theUser;
         this.theRoom = theRoom;
         this.startDate = startDate;
@@ -60,19 +64,19 @@ public class Booking {
         this.theRoom = theRoom;
     }
 
-    public LocalDate getStartDate() {
+    public LocalDateTime getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(LocalDate startDate) {
+    public void setStartDate(LocalDateTime startDate) {
         this.startDate = startDate;
     }
 
-    public LocalDate getEndDate() {
+    public LocalDateTime getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(LocalDate endDate) {
+    public void setEndDate(LocalDateTime endDate) {
         this.endDate = endDate;
     }
 }
