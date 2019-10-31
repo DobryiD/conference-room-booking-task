@@ -39,7 +39,7 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     @Transactional
-    public void bookTheRoom(RequestBooking booking) {
+    public Booking bookTheRoom(RequestBooking booking) {
         User checkUser = userDAO.getUser(booking.getLogin());
         if (checkUser != null && booking.getPassword().equals(checkUser.getPassword())) {
             Room checkRoom = roomDAO.getRoom(booking.getRoomName());
@@ -50,6 +50,7 @@ public class BookingServiceImpl implements BookingService {
 
                         Booking newBooking = new Booking(checkUser, checkRoom, booking.getStartDate(), booking.getEndDate());
                         bookingDAO.bookRoom(newBooking);
+                        return newBooking;
 
                     } else {
                         throw new AccessDeniedException("This room is already booked for this period!");
@@ -67,7 +68,7 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     @Transactional
-    public List<BookingDTO> getBookingScheduleForAllRooms(RequestBooking booking) {
+    public List<BookingDTO> getBookingScheduleForTimeFrame(RequestBooking booking) {
 
         List<Booking> storedBookings;
         if (booking.getStartDate() != null && booking.getEndDate() != null) {

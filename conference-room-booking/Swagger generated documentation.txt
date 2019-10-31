@@ -1,0 +1,3 @@
+To see swagger ui documentation,start the application and then enter http://localhost:8080/swagger-ui.html#/ in the browser.
+
+http://localhost:8080/v2/api-docs

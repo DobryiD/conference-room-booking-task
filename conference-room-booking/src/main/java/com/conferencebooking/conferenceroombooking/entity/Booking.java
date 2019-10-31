@@ -1,6 +1,8 @@
 package com.conferencebooking.conferenceroombooking.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -10,24 +12,30 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "booking")
+@ApiModel(description = "All details about the Booking. ")
 public class Booking {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @ApiModelProperty(notes = "The database generated booking ID")
     private int id;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @ApiModelProperty(notes = "The booking reference for user who have done booking")
     private User theUser;
 
     @ManyToOne
     @JoinColumn(name = "room_id")
+    @ApiModelProperty(notes = "The booking reference for booked room")
     private Room theRoom;
 
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @ApiModelProperty(notes = "The start date of booking")
     private LocalDateTime startDate;
 
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @ApiModelProperty(notes = "The end date of booking")
     private LocalDateTime endDate;
 
     public Booking() {

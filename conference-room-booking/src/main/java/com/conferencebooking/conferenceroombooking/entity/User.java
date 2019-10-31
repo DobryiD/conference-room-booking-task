@@ -1,6 +1,9 @@
 package com.conferencebooking.conferenceroombooking.entity;
 
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
@@ -9,27 +12,38 @@ import java.util.List;
 
 @Entity
 @Table(name = "system_user")
+@ApiModel(description = "All details about the User. ")
 public class User {
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @ApiModelProperty(notes = "The database generated user ID")
     private int id;
+
 
     @NotEmpty(message = "is required")
     @Size(min = 1, max = 50)
+    @ApiModelProperty(notes = "The user  name")
     private String name;
+
 
     @NotEmpty(message = "is required")
     @Size(min = 1, max = 100)
+    @ApiModelProperty(notes = "The user surname")
     private String surname;
+
 
     @NotEmpty(message = "is required")
     @Size(min = 1, max = 100)
     @Column(unique = true)
+    @ApiModelProperty(notes = "The users login")
     private String login;
+
 
     @NotEmpty(message = "is required")
     @Size(min = 6, max = 100)
+    @ApiModelProperty(notes = "The users password")
     private String password;
 
 

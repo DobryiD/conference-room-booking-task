@@ -1,6 +1,8 @@
 package com.conferencebooking.conferenceroombooking.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
 
@@ -14,28 +16,34 @@ import java.util.List;
 
 @Entity
 @Table(name = "room")
+@ApiModel(description = "All details about the Room. ")
 public class Room {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @ApiModelProperty(notes = "The database generated room ID")
     private int id;
 
     @Size(max = 50)
     @Column(unique = true)
     @NotNull
+    @ApiModelProperty(notes = "The rooms name")
     private String name;
 
     @Size(max = 256)
+    @ApiModelProperty(notes = "The rooms location")
     private String location;
 
     @Max(value = 100)
     @NotNull
+    @ApiModelProperty(notes = "The rooms number of seats")
     private Integer numberOfSeats;
 
-
+    @ApiModelProperty(notes = "Does the room has projector or not")
     private Boolean haveProjector;
 
     @Size(max = 100)
+    @ApiModelProperty(notes = "The rooms phoneNumber")
     private String phoneNumber;
 
     @JsonIgnore
