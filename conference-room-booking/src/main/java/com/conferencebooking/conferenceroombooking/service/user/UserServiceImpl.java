@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    @Transactional
+
     public List<UserDTO> getAvailableUsers() {
 
         List<User> storedUsers = userDAO.getAvailableUsers();

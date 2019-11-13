@@ -33,7 +33,7 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    @Transactional
+
     public List<Room> getAvailableRooms() {
         return roomDAO.getAvailableRooms();
     }

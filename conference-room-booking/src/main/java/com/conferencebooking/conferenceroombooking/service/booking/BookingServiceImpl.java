@@ -40,6 +40,14 @@ public class BookingServiceImpl implements BookingService {
     @Override
     @Transactional
     public Booking bookTheRoom(RequestBooking booking) {
+
+        Booking theBooking=checkBookingForCorrectness(booking);
+        bookingDAO.bookRoom(theBooking);
+        return theBooking;
+
+    }
+
+    private Booking checkBookingForCorrectness(RequestBooking booking) {
         User checkUser = userDAO.getUser(booking.getLogin());
         if (checkUser != null && booking.getPassword().equals(checkUser.getPassword())) {
             Room checkRoom = roomDAO.getRoom(booking.getRoomName());
@@ -47,11 +55,7 @@ public class BookingServiceImpl implements BookingService {
                 if (booking.isDateTimeCorrect()) {
                     List<Booking> bookingCheck = bookingDAO.bookingsForSingleRoom(checkRoom, booking.getStartDate(), booking.getEndDate());
                     if (bookingCheck.isEmpty()) {
-
-                        Booking newBooking = new Booking(checkUser, checkRoom, booking.getStartDate(), booking.getEndDate());
-                        bookingDAO.bookRoom(newBooking);
-                        return newBooking;
-
+                        return new Booking(checkUser, checkRoom, booking.getStartDate(), booking.getEndDate());
                     } else {
                         throw new AccessDeniedException("This room is already booked for this period!");
                     }
@@ -66,8 +70,9 @@ public class BookingServiceImpl implements BookingService {
         }
     }
 
+
+
     @Override
-    @Transactional
     public List<BookingDTO> getBookingScheduleForTimeFrame(RequestBooking booking) {
 
         List<Booking> storedBookings;
@@ -79,14 +84,13 @@ public class BookingServiceImpl implements BookingService {
                 throw new IncorrectDataException("End date can not be before start date!");
             }
         } else {
-            storedBookings = bookingDAO.getAllBookings(booking.getStartDate(),booking.getEndDate());
+            storedBookings = bookingDAO.getAllBookings(booking.getStartDate(), booking.getEndDate());
         }
 
         return mapBookingToDTO(storedBookings);
     }
 
     @Override
-    @Transactional
     public List<BookingDTO> getBookingScheduleForSingleRoom(RequestBooking booking) {
 
         Room theRoom = roomDAO.getRoom(booking.getRoomName());
@@ -99,7 +103,7 @@ public class BookingServiceImpl implements BookingService {
                     throw new IncorrectDataException("End date can not be before start date!");
                 }
             } else {
-                storedBookings = bookingDAO.getAllBookingsForRoom(theRoom,booking.getStartDate(),booking.getEndDate());
+                storedBookings = bookingDAO.getAllBookingsForRoom(theRoom, booking.getStartDate(), booking.getEndDate());
             }
             return mapBookingToDTO(storedBookings);
         } else {
@@ -109,7 +113,6 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    @Transactional
     public List<BookingDTO> getBookingScheduleForUser(RequestBooking booking) {
 
         User theUser = userDAO.getUser(booking.getLogin());
@@ -122,7 +125,7 @@ public class BookingServiceImpl implements BookingService {
                     throw new IncorrectDataException("End date can not be before start date!");
                 }
             } else {
-                storedBookings = bookingDAO.getAllBookingsForUser(theUser,booking.getStartDate(),booking.getEndDate());
+                storedBookings = bookingDAO.getAllBookingsForUser(theUser, booking.getStartDate(), booking.getEndDate());
             }
             return mapBookingToDTO(storedBookings);
         } else {
@@ -131,8 +134,7 @@ public class BookingServiceImpl implements BookingService {
     }
 
 
-
-    public List<BookingDTO>mapBookingToDTO(List<Booking> bookingList){
+    private List<BookingDTO> mapBookingToDTO(List<Booking> bookingList) {
         List<BookingDTO> bookingDTOList = new ArrayList<>();
 
         for (Booking book : bookingList) {

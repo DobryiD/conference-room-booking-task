@@ -3,7 +3,6 @@ package com.conferencebooking.conferenceroombooking.dao.booking;
 import com.conferencebooking.conferenceroombooking.entity.Booking;
 import com.conferencebooking.conferenceroombooking.entity.Room;
 import com.conferencebooking.conferenceroombooking.entity.User;
-import com.conferencebooking.conferenceroombooking.model.RequestBooking;
 
 
 import java.time.LocalDateTime;
